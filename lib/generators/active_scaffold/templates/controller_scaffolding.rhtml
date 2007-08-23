@@ -1,0 +1,20 @@
+  # Sample config block usage:
+  # ...
+  # [:email => {
+  #   :exclude => :list,
+  #   :label => "E-mail"
+  # }], 
+  # [:phone => {
+  #   :description => "(888) 111-2222",
+  #   :exclude => :list,
+  #   :form_ui => :usa_phone
+  # }],
+  # [:company => {
+  #   :exclude => [:create, :list, :update]
+  # }],
+  # ...
+  active_scaffold :<%=@singular_name.pluralize%> do |config|
+	  has_columns [
+<%= all_columns(@model_instance, @singular_name, { :has_columns => true, :exclude => %w(id created_on created_at updated_on updated_at lock_version) }).chop %>
+	  ]
+	end
