@@ -2,6 +2,12 @@ module ActiveScaffold::Actions
   module PrintList
     def self.included(base)
       base.before_filter :print_list_authorized?, :only => [:print_list, :print_pdf]
+      base.before_filter :store_session_info
+    end
+
+    def store_session_info
+      active_scaffold_session_storage[:print_list] ||= {}
+      active_scaffold_session_storage[:print_list][:search] = params[:search] if !params[:search].nil? || params[:commit] == as_('Search')
     end
 
     def print_list
@@ -33,14 +39,13 @@ module ActiveScaffold::Actions
       includes_for_print_list_columns = active_scaffold_config.print_list.columns.collect{ |c| c.includes }.flatten.uniq.compact
       self.active_scaffold_joins.concat includes_for_print_list_columns
 
-      options = {:sorting => active_scaffold_config.print_list.user.sorting,}
+      options = {:sorting => active_scaffold_config.list.user.sorting}
 
-      page = find_page(options);
-      if page.items.empty?
-        page = page.pager.first
-        active_scaffold_config.print_list.user.page = 1
-      end
-      @page, @records = page, page.items
+      params[:search] = active_scaffold_session_storage[:print_list][:search]
+ActiveRecord::Base.logger.debug "do_print_list: params[:search] = #{params[:search].pretty_inspect}"
+      do_search
+
+      @records = find_page(options);
     end
 
     # The default security delegates to ActiveRecordPermissions.

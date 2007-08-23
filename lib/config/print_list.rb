@@ -1,22 +1,44 @@
 module ActiveScaffold::Config
-  class PrintList < List
+  class PrintList < Base
+    
+    self.crud_type = :read
+
     def initialize(core_config)
       @core = core_config
 
       # inherit from global scope
-      # full configuration path is: defaults => global table => local table
-      @per_page = 2#self.class.per_page
-
-      # originates here
-      @sorting = ActiveScaffold::DataStructures::Sorting.new(@core.columns)
-      @sorting.add @core.model.primary_key, 'ASC'
-
-      # inherit from global scope
       @empty_field_text = self.class.empty_field_text
     end
+
+    # what string to use when a field is empty
+    cattr_accessor :empty_field_text
+    @@empty_field_text = '-'
+
     cattr_reader :link
     @@link = ActiveScaffold::DataStructures::ActionLink.new('print_list', :label => 'Print List', :type => :table, :security_method => :print_list_authorized?, :popup => true)
     
+    # instance-level configuration
+    # ----------------------------
+
+    # provides access to the list of columns specifically meant for the Table to use
+    def columns
+      self.columns = @core.columns._inheritable unless @columns # lazy evaluation
+      @columns
+    end
+    def columns=(val)
+      @columns = ActiveScaffold::DataStructures::ActionColumns.new(*val)
+      @columns.action = self
+    end
+
+    # what string to use when a field is empty
+    attr_accessor :empty_field_text
+
+    # the label for this List action. used for the header.
+    attr_writer :label
+    def label
+      @label ? as_(@label) : @core.label
+    end
+
     attr_accessor :header_image
     attr_accessor :header_size
     attr_accessor :header_text

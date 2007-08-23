@@ -43,7 +43,7 @@
   pdf.set_subject("");
   pdf.set_keywords("");
 
-  pdf.set_header_data(active_scaffold_config.print_list.header_image, active_scaffold_config.print_list.header_size, active_scaffold_config.print_list.header_text, "");
+  pdf.set_header_data(active_scaffold_config.print_list.header_image, active_scaffold_config.print_list.header_size, as_(active_scaffold_config.print_list.header_text), "");
 
   #set margins
   pdf.set_margins(15, 20, 15);
