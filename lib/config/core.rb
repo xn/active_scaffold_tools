@@ -4,6 +4,9 @@ module ActiveScaffold::Config
     cattr_accessor :tools_plugin_directory
     @@tools_plugin_directory = File.expand_path(__FILE__).match(/vendor\/plugins\/([^\/]*)/)[1]
 
+    cattr_accessor :left_handed
+    @@left_handed = false
+
     # the active_scaffold_tools template path
     def template_search_path_with_tools(frontend = self.frontend)
       search_path = template_search_path_without_tools
@@ -11,6 +14,7 @@ module ActiveScaffold::Config
       # Insert ourselves before active_scaffold
       new_search_path = []
       new_search_path << search_path.slice(0)
+      new_search_path << "../../vendor/plugins/#{ActiveScaffold::Config::Core.tools_plugin_directory}/frontends/default/views/left_handed" if self.left_handed
       new_search_path << "../../vendor/plugins/#{ActiveScaffold::Config::Core.tools_plugin_directory}/frontends/default/views"
       new_search_path << search_path.slice(1..search_path.length)
 
