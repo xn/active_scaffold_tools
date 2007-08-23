@@ -1,7 +1,7 @@
 module ActiveScaffold::Actions
   module PrintList
     def self.included(base)
-      base.before_filter :print_list_authorized?, :only => [:row, :print_list]
+      base.before_filter :print_list_authorized?, :only => [:print_list, :print_pdf]
     end
 
     def print_list
@@ -17,46 +17,24 @@ module ActiveScaffold::Actions
       end
     end
 
-    protected
+    def print_pdf
+      do_print_list
+      respond_to do |type|
+        type.html {
+          @html = render_to_string(:action => "print_list", :layout => false)
+          render :action => 'print_pdf', :layout => false      
+        }
+      end
+    end
     
-    # def do_print_html
-    #   @html = '<table cellpadding="0" cellspacing="0" border="1"><tr>'
-    #   active_scaffold_config.list.columns.each do |column|
-    #     @html << '<th'
-    #     @html << "width=\"#{column.options[:print_width]}\"" if column.options[:print_width]
-    #     @html << '>'
-    #     @html << column.label
-    #     @html << '</th>'
-    #   end
-    #   @html << '</tr></thead><tbody>'
-    #   @records.each do |record|
-    #     @html << '<tr>'
-    #     active_scaffold_config.list.columns.each do |column|
-    #       column_value = get_column_value(record, column)
-    #       @html << '<td' 
-    #       @html << "width=\"#{column.options[:print_width]}\"" if column.options[:print_width]
-    #       @html << '>'
-    #       @html << column_value
-    #       @html << '</td>'
-    #     end
-    #     @html << '</tr>'
-    #   end
-    #   @html << '</tbody></table>'
-    # end
+    protected
     
     def do_print_list
       includes_for_print_list_columns = active_scaffold_config.print_list.columns.collect{ |c| c.includes }.flatten.uniq.compact
       self.active_scaffold_joins.concat includes_for_print_list_columns
 
       options = {:sorting => active_scaffold_config.print_list.user.sorting,}
-      # paginate = (params[:format].nil?) ? (accepts? :html, :js) : [:html, :js].include?(params[:format])
-      # if paginate
-      #   options.merge!({
-      #     :per_page => active_scaffold_config.print_list.user.per_page,
-      #     :page => active_scaffold_config.print_list.user.page
-      #   })
-      # end
-      # 
+
       page = find_page(options);
       if page.items.empty?
         page = page.pager.first

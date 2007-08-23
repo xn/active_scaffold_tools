@@ -1,22 +1,18 @@
-<% html = '<table cellpadding="0" cellspacing="0" border="1"><tr>'
-active_scaffold_config.print_list.columns.each do |column|
-  html << '<th bgcolor="#cccccc" '
-  html << "width=\"#{column.options[:print_width]}\"" if column.options[:print_width]
-  html << '>'
-  html << column.label
-  html << '</th>'
-end
-html << '</tr>'
-@records.each do |record|
-  html << '<tr>'
-  active_scaffold_config.print_list.columns.each do |column|
-    html << '<td bgcolor="#ffffff" ' 
-    html << "width=\"#{column.options[:print_width]}\"" if column.options[:print_width]
-    html << '>'
-    html << get_column_value(record, column)
-    html << '</td>'
-  end
-  html << '</tr>'
-end
-html << '</table>'
-%><%= html  %>
+<table cellpadding="0" cellspacing="0" border="1">
+  <tr>
+<% active_scaffold_config.print_list.columns.each do |column| %>
+  <th bgcolor="#cccccc" <%= "width=\"#{column.options[:print_width]}\"" if column.options[:print_width] %>>
+    <%= column.label %>
+  </th>
+<% end %>
+  </tr>
+<% @records.each do |record| %>
+  <tr>
+  <% active_scaffold_config.print_list.columns.each do |column| %>
+    <td bgcolor="#ffffff" <%= "width=\"#{column.options[:print_width]}\"" if column.options[:print_width] %>>
+      <%= get_column_value(record, column) %>
+    </td>
+  <% end %>
+  </tr>
+<% end %>
+</table>

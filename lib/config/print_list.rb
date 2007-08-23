@@ -17,5 +17,18 @@ module ActiveScaffold::Config
     cattr_reader :link
     @@link = ActiveScaffold::DataStructures::ActionLink.new('print_list', :label => 'Print List', :type => :table, :security_method => :print_list_authorized?, :popup => true)
     
+    attr_accessor :header_image
+    attr_accessor :header_size
+    attr_accessor :header_text
+    
+    def print_format=(value = :pdf)
+      if value.to_s.downcase.to_sym == :pdf
+        @@link.action = 'print_pdf'
+        @@link.label = 'Print PDF'
+      else
+        @@link.action = 'print_list'
+        @@link.label = 'Print List'
+      end
+    end
   end
 end
