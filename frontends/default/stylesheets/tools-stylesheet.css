@@ -9,3 +9,41 @@ background-repeat: no-repeat;
 background-image: url(../../../images/active_scaffold/default/printer.png);
 }
 
+/* Left-handed Begin */
+.active-scaffold-header div.actions {
+	position: relative;
+	text-align: left;
+}
+
+.active-scaffold-header div.actions a {
+float: left;
+}
+
+.active-scaffold .show-view dl {
+margin-left: 5px;
+}
+
+.active-scaffold .show-view dt {
+width: 12em;
+float: left;
+clear: left;
+font: normal 11px verdana, sans-serif;
+line-height: 16px;
+}
+
+.active-scaffold .show-view dd {
+float: inherit;
+font: bold 14px arial;
+padding-left: 5px;
+margin-bottom: 5px;
+margin-left: 13em;
+}
+
+.active-scaffold a.inline-adapter-close {
+float: left;
+text-indent: -4000px;
+width: 16px;
+height: 17px;
+background: url(../../../images/active_scaffold/default/close.gif) 0 0 no-repeat;
+}
+/* Left-handed End */
