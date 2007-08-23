@@ -42,7 +42,6 @@ module ActiveScaffold::Actions
       options = {:sorting => active_scaffold_config.list.user.sorting}
 
       params[:search] = active_scaffold_session_storage[:print_list][:search]
-ActiveRecord::Base.logger.debug "do_print_list: params[:search] = #{params[:search].pretty_inspect}"
       do_search
 
       @records = find_page(options);
