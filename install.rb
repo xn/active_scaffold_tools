@@ -14,8 +14,6 @@ end
 
 directory = File.dirname(__FILE__)
 
-copy_files("/public", "/public", directory)
-
 available_frontends = Dir[File.join(directory, 'frontends', '*')].collect { |d| File.basename d }
 [ :stylesheets, :javascripts, :images].each do |asset_type|
   path = "/public/#{asset_type}/active_scaffold"
