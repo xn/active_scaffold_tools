@@ -10,7 +10,10 @@
   <tr>
   <% active_scaffold_config.print_list.columns.each do |column| %>
     <td bgcolor="#ffffff" <%= "width=\"#{column.options[:print_width]}\"" if column.options[:print_width] %>>
+      <% save_column_inplace_edit = column.inplace_edit %>
+      <% column.inplace_edit = false %>
       <%= get_column_value(record, column) %>
+      <% column.inplace_edit = save_column_inplace_edit %>
     </td>
   <% end %>
   </tr>
