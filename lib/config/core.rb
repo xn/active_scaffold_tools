@@ -6,6 +6,9 @@ module ActiveScaffold::Config
 
     cattr_accessor :left_handed
     @@left_handed = false
+    
+    cattr_accessor :upper_case_form_fields
+    @@upper_case_form_fields = false
 
     # the active_scaffold_tools template path
     def template_search_path_with_tools(frontend = self.frontend)
