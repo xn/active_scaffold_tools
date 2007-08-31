@@ -18,6 +18,18 @@ padding-bottom: 5px;
 padding-left: 0px;
 }
 
+.active-scaffold tr.record td.actions {
+border-right: solid 1px #ccc;
+padding: 0;
+width: 0%;
+}
+
+.active-scaffold tr.record td.actions table {
+float: left;
+width: auto;
+margin-right: 5px;
+}
+
 .active-scaffold tr.record td.actions table td {
 border: none;
 text-align: left;
@@ -50,4 +62,9 @@ text-indent: -4000px;
 width: 16px;
 height: 17px;
 background: url(../../../images/active_scaffold/default/close.gif) 0 0 no-repeat;
+}
+
+.left-handed-actions {
+margin: 0px; 
+float: left
 }
