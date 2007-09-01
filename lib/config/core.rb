@@ -70,5 +70,24 @@ module ActiveScaffold::Config
       field_search.columns = field_search_columns if @actions.include?(:field_search) and field_search_columns.length > 0
     end
     alias_method :has_columns, :columns_by_key_value
+    
+    # ================
+    # = Export BEGIN =
+    # ================
+    cattr_accessor :export_show_form, :export_allow_full_download,
+      :export_force_quotes, :export_default_full_download,
+      :export_default_delimiter, :export_default_skip_header
+    @@export_show_form = true
+    @@export_allow_full_download = true
+    @@export_default_full_download = true
+    @@export_force_quotes = false
+    @@export_default_skip_header = false
+    @@export_default_delimiter = ','
+
+    ActionController::Resources::Resource::ACTIVE_SCAFFOLD_ROUTING[:collection][:show_export] = :get
+    # ==============
+    # = Export END =
+    # ==============
+    
   end
 end
