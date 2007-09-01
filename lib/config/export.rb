@@ -8,6 +8,9 @@ module ActiveScaffold::Config
 
       # inherit from global scope
       @empty_field_text = self.class.empty_field_text
+      @delimiter = self.class.delimiter
+      @force_quotes = self.class.force_quotes
+      @skip_header = self.class.skip_header
     end
 
     # global level configuration
@@ -15,46 +18,30 @@ module ActiveScaffold::Config
     # the ActionLink for this action
     cattr_reader :link
     @@link = ActiveScaffold::DataStructures::ActionLink.new('export', :label => 'Export', :type => :table, :security_method => :export_authorized?, :inline => false)
-    # @@link = ActiveScaffold::DataStructures::ActionLink.new('show_export', :label => 'Export', :type => :table, :security_method => :export_authorized?)
     
     cattr_accessor :empty_field_text
     @@empty_field_text = '-'
     
+    cattr_accessor :delimiter
+    @@delimiter = ","
+    
+    cattr_accessor :force_quotes
+    @@force_quotes = false
+    
+    cattr_accessor :skip_header
+    @@skip_header = false
+
     # instance-level configuration
     # ----------------------------
 
     # what string to use when a field is empty
     attr_accessor :empty_field_text
 
-    attr_writer :show_form, :allow_full_download, :force_quotes, :default_full_download, :default_delimiter, :default_skip_header, :default_deselected_columns
-    def show_form
-      self.show_form = @core.export_show_form unless @show_form
-      @show_form
-    end
-    def allow_full_download
-      self.allow_full_download = @core.export_allow_full_download unless @allow_full_download
-      @allow_full_download
-    end
-    def force_quotes
-      self.force_quotes = @core.export_force_quotes unless @force_quotes
-      @force_quotes
-    end
-    def default_full_download
-      self.default_full_download = @core.export_default_full_download unless @default_full_download
-      @default_full_download
-    end
-    def default_delimiter
-      self.default_delimiter = @core.export_default_delimiter unless @default_delimiter
-      @default_delimiter
-    end
-    def default_skip_header
-      self.default_skip_header = @core.export_default_skip_header unless @default_skip_header
-      @default_skip_header
-    end
-    def default_deselected_columns
-      self.default_deselected_columns = [] unless @default_deselected_columns
-      @default_deselected_columns
-    end
+    attr_accessor :delimiter
+    
+    attr_accessor :force_quotes
+    
+    attr_accessor :skip_header
 
     # provides access to the list of columns specifically meant for this action to use
     def columns
