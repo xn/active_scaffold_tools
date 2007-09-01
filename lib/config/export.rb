@@ -20,7 +20,7 @@ module ActiveScaffold::Config
     @@link = ActiveScaffold::DataStructures::ActionLink.new('export', :label => 'Export', :type => :table, :security_method => :export_authorized?, :inline => false)
     
     cattr_accessor :empty_field_text
-    @@empty_field_text = '-'
+    @@empty_field_text = ''
     
     cattr_accessor :delimiter
     @@delimiter = ","

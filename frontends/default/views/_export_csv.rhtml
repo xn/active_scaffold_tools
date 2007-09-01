@@ -14,7 +14,7 @@
         column.inplace_edit = false
         #TODO 2007-09-01 (EJM) Level=0 - This needs to be resolved inside active_scaffold_column_checkbox somehow
         column.list_ui = :boolean if column.list_ui and column.list_ui.to_sym == :checkbox
-        get_column_value(record, column)
+        get_column_value(record, column).gsub("&nbsp;", "")
       }
     end
   end

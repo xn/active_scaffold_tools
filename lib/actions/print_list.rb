@@ -36,6 +36,7 @@ module ActiveScaffold::Actions
     protected
     
     def do_print_list
+      active_scaffold_config.list.empty_field_text = active_scaffold_config.print_list.empty_field_text
       includes_for_print_list_columns = active_scaffold_config.print_list.columns.collect{ |c| c.includes }.flatten.uniq.compact
       self.active_scaffold_joins.concat includes_for_print_list_columns
 

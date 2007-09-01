@@ -21,6 +21,7 @@ module ActiveScaffold::Actions
 
     # The actual algorithm to do the export
     def do_export
+      active_scaffold_config.list.empty_field_text = active_scaffold_config.export.empty_field_text
       includes_for_export_columns = active_scaffold_config.export.columns.collect{ |c| c.includes }.flatten.uniq.compact
       self.active_scaffold_joins.concat includes_for_export_columns
 
