@@ -1,20 +1,30 @@
 module ActiveScaffold::Config
   class Export < Base
+
     self.crud_type = :read
 
     def initialize(core_config)
       @core = core_config
+
+      # inherit from global scope
+      @empty_field_text = self.class.empty_field_text
     end
 
     # global level configuration
     # --------------------------
     # the ActionLink for this action
-    cattr_accessor :link
-    @@link = ActiveScaffold::DataStructures::ActionLink.new('show_export', :label => 'Export', :type => :table, :security_method => :export_authorized?)
-
+    cattr_reader :link
+    @@link = ActiveScaffold::DataStructures::ActionLink.new('export', :label => 'Export', :type => :table, :security_method => :export_authorized?, :inline => false)
+    # @@link = ActiveScaffold::DataStructures::ActionLink.new('show_export', :label => 'Export', :type => :table, :security_method => :export_authorized?)
+    
+    cattr_accessor :empty_field_text
+    @@empty_field_text = '-'
     
     # instance-level configuration
     # ----------------------------
+
+    # what string to use when a field is empty
+    attr_accessor :empty_field_text
 
     attr_writer :show_form, :allow_full_download, :force_quotes, :default_full_download, :default_delimiter, :default_skip_header, :default_deselected_columns
     def show_form

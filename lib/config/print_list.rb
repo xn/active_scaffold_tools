@@ -10,12 +10,14 @@ module ActiveScaffold::Config
       @empty_field_text = self.class.empty_field_text
     end
 
-    # what string to use when a field is empty
+    # global level configuration
+    # --------------------------
+    # the ActionLink for this action
+    cattr_reader :link
+    @@link = ActiveScaffold::DataStructures::ActionLink.new('print_list', :label => 'Print List', :type => :table, :security_method => :print_list_authorized?, :position => true)
+    
     cattr_accessor :empty_field_text
     @@empty_field_text = '-'
-
-    cattr_reader :link
-    @@link = ActiveScaffold::DataStructures::ActionLink.new('print_list', :label => 'Print List', :type => :table, :security_method => :print_list_authorized?, :popup => true)
     
     # instance-level configuration
     # ----------------------------

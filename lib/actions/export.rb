@@ -2,11 +2,12 @@ module ActiveScaffold::Actions
   module Export
     def self.included(base)
       base.before_filter :export_authorized?, :only => [:export]
-      base.before_filter :init_session_var
+      base.before_filter :store_session_info
     end
     
-    def init_session_var
-      session[:search] = params[:search] if !params[:search].nil? || params[:commit] == as_('Search')
+    def store_session_info
+      active_scaffold_session_storage[:export] ||= {}
+      active_scaffold_session_storage[:export][:search] = params[:search] if !params[:search].nil? || params[:commit] == as_('Search')
     end
 
     # display the customization form or skip directly to export
@@ -47,7 +48,7 @@ module ActiveScaffold::Actions
         params.merge!(options)
       end
 
-      find_items_for_export
+      do_export
 
       response.headers['Content-Disposition'] = "attachment; filename=#{self.controller_name}.csv"
       render :partial => 'export', :content_type => Mime::CSV, :status => response_status 
@@ -56,7 +57,7 @@ module ActiveScaffold::Actions
     protected
 
     # The actual algorithm to do the export
-    def find_items_for_export
+    def do_export
       export_config = active_scaffold_config.export
       export_columns = export_config.columns.reject { |col| params[:export_columns][col.name.to_sym].nil? }
 
