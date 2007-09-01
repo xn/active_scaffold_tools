@@ -2,10 +2,10 @@ module ActiveScaffold::Actions
   module Export
     def self.included(base)
       base.before_filter :export_authorized?, :only => [:export]
-      base.before_filter :store_session_info
+      base.before_filter :store_export_session_info
     end
     
-    def store_session_info
+    def store_export_session_info
       active_scaffold_session_storage[:export] ||= {}
       active_scaffold_session_storage[:export][:search] = params[:search] if !params[:search].nil? || params[:commit] == as_('Search')
     end
@@ -65,7 +65,7 @@ module ActiveScaffold::Actions
       self.active_scaffold_joins.concat includes_for_export_columns
       
       find_options = { :sorting => active_scaffold_config.list.user.sorting }
-      params[:search] = session[:search]
+      params[:search] = active_scaffold_session_storage[:export][:search]
       do_search
       params[:segment_id] = session[:segment_id]
       do_segment_search rescue nil

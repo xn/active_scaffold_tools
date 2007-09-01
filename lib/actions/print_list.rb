@@ -2,10 +2,10 @@ module ActiveScaffold::Actions
   module PrintList
     def self.included(base)
       base.before_filter :print_list_authorized?, :only => [:print_list, :print_pdf]
-      base.before_filter :store_session_info
+      base.before_filter :store_print_list_session_info
     end
 
-    def store_session_info
+    def store_print_list_session_info
       active_scaffold_session_storage[:print_list] ||= {}
       active_scaffold_session_storage[:print_list][:search] = params[:search] if !params[:search].nil? || params[:commit] == as_('Search')
     end
