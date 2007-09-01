@@ -14,7 +14,7 @@ module ActiveScaffold::Config
     # --------------------------
     # the ActionLink for this action
     cattr_reader :link
-    @@link = ActiveScaffold::DataStructures::ActionLink.new('print_list', :label => 'Print List', :type => :table, :security_method => :print_list_authorized?, :position => true)
+    @@link = ActiveScaffold::DataStructures::ActionLink.new('print_list', :label => 'Print List', :type => :table, :security_method => :print_list_authorized?, :popup => true)
     
     cattr_accessor :empty_field_text
     @@empty_field_text = '-'
