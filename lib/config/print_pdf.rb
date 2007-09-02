@@ -1,9 +1,9 @@
 module ActiveScaffold::Config
   class PrintPdf < PrintList
 
-      def initialize(*args)
-        super
-      end
+    def initialize(*args)
+      super
+    end
 
     # global level configuration
     # --------------------------

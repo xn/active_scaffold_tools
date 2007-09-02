@@ -1,7 +1,7 @@
 require "#{File.dirname __FILE__}/lib/finder"
 
-require "#{File.dirname __FILE__}/lib/actions/export"
 require "#{File.dirname __FILE__}/lib/actions/print_list"
+require "#{File.dirname __FILE__}/lib/actions/export"
 require "#{File.dirname __FILE__}/lib/actions/print_html"
 require "#{File.dirname __FILE__}/lib/actions/print_pdf"
 
