@@ -45,7 +45,7 @@ text-align: right;
 
 .active-scaffold li.form-element dd {
 float: left;
-margin-left: 3em;
+margin-left: 1em;
 }
 
 .active-scaffold .show-view dt {
