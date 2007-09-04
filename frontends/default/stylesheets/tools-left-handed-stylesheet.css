@@ -36,16 +36,25 @@ text-align: left;
 padding: 0 2px;
 }
 
-.active-scaffold .show-view dl {
-margin-left: 5px;
+.active-scaffold li.form-element dt {
+float: left;
+width: 12em;
+padding: 6px 0;
+text-align: right;
+}
+
+.active-scaffold li.form-element dd {
+float: left;
+margin-left: 3em;
 }
 
 .active-scaffold .show-view dt {
-width: 12em;
+width: 16em;
 float: left;
 clear: left;
 font: normal 11px verdana, sans-serif;
 line-height: 16px;
+text-align: right;
 }
 
 .active-scaffold .show-view dd {
