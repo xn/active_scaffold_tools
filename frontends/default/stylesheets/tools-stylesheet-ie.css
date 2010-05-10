@@ -1,15 +1,4 @@
-.active-scaffold-header div.actions a.print_html,
-.active-scaffold-header div.actions a.print_pdf {
+.active-scaffold-header div.actions a.print_list {
 background-image: none;
 filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/active_scaffold/default/printer.png', sizingMethod='crop');
 }
-
-/* Export BEGIN */
-/* IE hacks
-   ==================================== */
-.active-scaffold-header div.actions a.export,
-.active-scaffold-header div.actions a.show_export {
-background-image: none;
-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/active_scaffold/default/export.png', sizingMethod='crop');
-}
-/* Export END */

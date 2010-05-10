@@ -1,0 +1,40 @@
+<h3><%=h @header_text%></h3>
+<table cellpadding="0" cellspacing="0" border="1">
+  <tr>
+    <% print_list_config.columns.each do |column| %>
+      <th bgcolor="#cccccc" <%= "width=\"#{column.options[:print_width]}\"" if column.options[:print_width] %>>
+        <%= column.label %>
+      </th>
+    <% end %>
+  </tr>
+  <% if @full_download-%>
+    <% @records.each do |record| %>
+      <tr>
+        <% print_list_config.columns.each do |column| %>
+          <td bgcolor="#ffffff" <%= "width=\"#{column.options[:print_width]}\"" if column.options[:print_width] %>>
+            <% save_column_inplace_edit = column.inplace_edit %>
+            <% column.inplace_edit = false %>
+            <% column.list_ui = :boolean if column.list_ui and column.list_ui.to_sym == :checkbox %>
+            <%= get_column_value(record, column) %>
+            <% column.inplace_edit = save_column_inplace_edit %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% else-%>
+    <% for i in 0..@maximum_rows do %>
+        <tr>
+          <% print_list_config.columns.each do |column| %>
+            <td bgcolor="#ffffff" <%= "width=\"#{column.options[:print_width]}\"" if column.options[:print_width] %>>
+              <% save_column_inplace_edit = column.inplace_edit %>
+              <% column.inplace_edit = false %>
+              <% column.list_ui = :boolean if column.list_ui and column.list_ui.to_sym == :checkbox %>
+              <%= get_column_value(@records[i], column) %>
+              <% column.inplace_edit = save_column_inplace_edit %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end-%>
+
+  </table>

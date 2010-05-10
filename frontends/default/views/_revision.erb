@@ -1,0 +1,11 @@
+<h4><%= active_scaffold_config.revision.label -%></h4>
+<table>
+    <%= render :partial => 'revision_columns', :locals => {:columns => active_scaffold_config.revision.columns} -%>
+</table>
+
+<p class="form-footer">
+  <%= button_to as_(:previous), :action => "previous_revision", :id => params[:id], :revision_number => @revision_number, :class => "submit" if @revision_number > 2 %>
+  <%= button_to as_(:next), :action => "next_revision", :id => params[:id], :revision_number => @revision_number, :class => "submit" unless @revision_number == @current_revision_number %>
+  <%= link_to as_(:cancel), params_for(:action => 'list'), :class => 'cancel' %>
+  <%= loading_indicator_tag(:action => :create, :id => params[:id]) %>
+</p>

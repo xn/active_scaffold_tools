@@ -1,0 +1,62 @@
+<% colspan = 1 %>
+<% colspan += 1 unless @rev_record_1.nil? %>
+<% colspan += 1 unless @rev_record_2.nil? %>
+<tr>
+	  <td class="header_compare_cell"><%= as_(:revision) %></td>
+	  <td class="header_compare_cell"><%= as_(:current) %><br>(<%= @record.updated_at %>)</td>
+    <% unless @rev_record_1.nil? %>
+  	  <td class="header_compare_cell"><%= time_ago_in_words(@rev_record_1.updated_at) %> ago<br>(<%= @rev_record_1.updated_at %>)</td>
+	  <% end %>
+    <% unless @rev_record_2.nil? %>
+  	  <td class="header_compare_cell"><%= time_ago_in_words(@rev_record_2.updated_at) %> ago<br>(<%= @rev_record_2.updated_at %>)</td>
+	  <% end %>
+<% number_of_compare_cells = 0 %>
+<% columns.each :for => @record do |column| %>
+  <%#= "</tr><tr>" if number_of_compare_cells % 2 == 0 %>
+  </tr><tr>
+  <% if column.plural_association? -%>
+    <% save_record = @record %>
+    <td class="left_compare_cell"><%= column.label -%>:</td><td colspan="<%= colspan %>"></td></tr><tr>
+    <td></td><td colspan="<%= colspan %>">
+      <table border=1>
+          <% save_rev_record_1 = @rev_record_1 %>
+          <% save_rev_record_2 = @rev_record_2 %>
+          <% # New or changed associations %>
+          <% @record.send(column.association.name).each do |record| %>
+            <% @rev_record_1 = nil %>
+            <% @rev_record_1 = save_rev_record_1.send(column.association.name)[record.id] if save_rev_record_1 %>
+            <% @rev_record_2 = nil %>
+            <% @rev_record_2 = save_rev_record_2.send(column.association.name)[record.id] if save_rev_record_2 %>
+            <% @record = record %>
+            <% begin %>
+              <%= render :partial => 'revision_columns', :locals => {:columns => active_scaffold_config_for(column.association.klass).revision.columns} -%>
+            <% rescue Exception => e %>
+              <%= column.association.class_name + ":" + e.message %>
+            <% end %>
+          <% end -%>
+      </table>
+    </td></tr><tr>
+    <% @record = save_record %>
+    <% @rev_record_1 = save_rev_record_1 %>
+    <% @rev_record_2 = save_rev_record_2 %>
+  <% else -%>
+    <td class="left_compare_cell"><%= column.label -%>:</td>
+    <% column.inplace_edit = false %>
+    <% revision_value = get_column_value(@record, column) -%>
+    <% revision_1_value = get_column_value(@rev_record_1, column) if @rev_record_1 -%>
+    <% revision_2_value = get_column_value(@rev_record_2, column) if @rev_record_2 -%>
+    <% current_attributes = "class=\"current_compare_cell\""  %>
+    <% attributes = "class=\"right_compare_cell\""  %>
+    <% revision_1_attributes = revision_2_attributes = nil %>
+    <% revision_1_attributes = "class=\"right_compare_cell_changed\" title=\"#{revision_1_value}\"" unless @rev_record_1.nil? or revision_1_value.nil? or revision_value == revision_1_value %>
+    <% revision_2_attributes = "class=\"right_compare_cell_changed\" title=\"#{revision_2_value}\"" unless @rev_record_2.nil? or revision_2_value.nil? or revision_1_value.nil? or revision_1_value == revision_2_value %>
+    <td <%= "#{current_attributes}" %>><%= revision_value -%> &nbsp;</td>
+    <% unless @rev_record_1.nil? %>
+      <td <%= "#{revision_1_attributes || attributes}" %>><%= revision_1_value -%> &nbsp;</td>
+    <% end %>
+    <% unless @rev_record_2.nil? %>
+      <td <%= "#{revision_2_attributes || attributes}" %>><%= revision_2_value -%> &nbsp;</td>
+    <% end %>
+  <% end -%>
+<% end -%>
+</tr>
